@@ -1,0 +1,1 @@
+SET DEBUG=webservice:* & npm start

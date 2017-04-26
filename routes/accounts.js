@@ -2,13 +2,14 @@
 
 let express = require('express');
 let router  = express.Router();
-const pool  = require('../lib/db');
+const DB    = require('../lib/DB');
+let data    = new DB();
 
 /**
- * Users GET.
+ * GET all User Accounts.
  */
 router.get('/', function(req, res, next) {
-
+    data.query('SELECT * FROM account', res);
 });
 
 module.exports = router;

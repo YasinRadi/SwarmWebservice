@@ -1,15 +1,27 @@
-let express = require('express');
-let path = require('path');
-let favicon = require('serve-favicon');
-let logger = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-
-let index = require('./routes/index');
+let https    = require('https');
+let fs       = require('fs');
+let express  = require('express');
+let path     = require('path');
+let favicon  = require('serve-favicon');
+let logger   = require('morgan');
+let index    = require('./routes/index');
 let accounts = require('./routes/accounts');
-let modules = require('./routes/modules');
+let modules  = require('./routes/modules');
+let port     = 3100;
+let cookieParser = require('cookie-parser');
+let bodyParser   = require('body-parser');
+
+let config = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem'),
+    passphrase: '1234'
+};
 
 let app = express();
+
+const server = https.createServer(config, app).listen(port, () => {
+
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,10 +40,9 @@ app.use('/accounts', accounts);
 app.use('/modules', modules);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  let err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function(req, res, next){
+    res.status(404);
+    res.sendfile('public/404.html');
 });
 
 // error handler

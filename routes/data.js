@@ -5,9 +5,16 @@
 
 let express = require('express');
 let router  = express.Router();
-const data = require('../lib/FullDataModel');
+const data = require('../lib/DataModel');
 
 //<editor-fold desc="Full Tables Data">
+
+/**
+ * GET All tables data.
+ */
+router.get('/', function(req, res, next) {
+    data.getAllData(res);
+});
 
 /**
  * GET All tables data using a given id.
@@ -45,3 +52,5 @@ router.get('/username/:username', function(req, res, next) {
 });
 
 //</editor-fold>
+
+module.exports = router;

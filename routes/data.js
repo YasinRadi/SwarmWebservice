@@ -5,9 +5,11 @@
 
 let express = require('express');
 let router  = express.Router();
+let bodyParser = require('body-parser');
 const data = require('../lib/DataModel');
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-//<editor-fold desc="Full Tables Data">
+//<editor-fold desc="Full Tables Data GET">
 
 /**
  * GET All tables data.
@@ -49,6 +51,27 @@ router.get('/surname/:surname', function(req, res, next) {
  */
 router.get('/username/:username', function(req, res, next) {
     data.getAllDataByUsername(res, req.params.username);
+});
+
+//</editor-fold>
+
+//<editor-fold desc="Full Tables Data POST">
+
+router.post('/newUser', urlencodedParser, function (req, res, next) {
+    let response = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        password: req.body.password,
+        confirm: req.body.confirm,
+        email: req.body.email,
+        username: req.body.username
+    };
+    data.insertUser(res, response.first_name, response.last_name, response.password,
+        response.confirm, response.email, response.username);
+});
+
+router.get('/example', function(req, res, next) {
+    res.send(data.generateSalt());
 });
 
 //</editor-fold>

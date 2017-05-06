@@ -71,7 +71,7 @@ router.post('/newUser', urlencodedParser, function (req, res, next) {
 });
 
 router.get('/example', function(req, res, next) {
-    res.send(data.generateSalt());
+    data.insertModule(res, '', 'yasin.ben.hamman@gmail.com');
 });
 
 //</editor-fold>

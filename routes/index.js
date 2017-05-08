@@ -13,4 +13,11 @@ router.get('/form', function(req, res, next) {
     res.sendfile('./public/form.html');
 });
 
+/**
+ * GET module form page.
+ */
+router.get('/moduleForm', function(req, res, next) {
+    res.sendfile('./public/module_form.html');
+});
+
 module.exports = router;

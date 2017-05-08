@@ -57,6 +57,9 @@ router.get('/username/:username', function(req, res, next) {
 
 //<editor-fold desc="Full Tables Data POST">
 
+/**
+ *
+ */
 router.post('/newUser', urlencodedParser, function (req, res, next) {
     let response = {
         first_name: req.body.first_name,
@@ -70,8 +73,19 @@ router.post('/newUser', urlencodedParser, function (req, res, next) {
         response.confirm, response.email, response.username);
 });
 
+/**
+ *
+ */
+router.post('/newModule', urlencodedParser, function(req, res, next) {
+    data.insertModule(req.body.module_name, req.body.email, () => {
+        res.send('OK');
+    });
+});
+
 router.get('/example', function(req, res, next) {
-    data.insertModule(res, '', 'yasin.ben.hamman@gmail.com');
+    data.insertModule('', 'yasin.ben.hamman@gmail.com', () => {
+        res.send('OK');
+    });
 });
 
 //</editor-fold>

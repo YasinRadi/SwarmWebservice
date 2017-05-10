@@ -4,10 +4,13 @@
 'use strict';
 
 let express = require('express');
+let fileUp  = require('express-fileupload');
+let btoa    = require('btoa');
 let router  = express.Router();
 let bodyParser = require('body-parser');
-const data = require('../lib/DataModel');
+const data  = require('../lib/DataModel');
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
+router.use(fileUp());
 
 //<editor-fold desc="Full Tables Data GET">
 
@@ -58,7 +61,7 @@ router.get('/username/:username', function(req, res, next) {
 //<editor-fold desc="Full Tables Data POST">
 
 /**
- *
+ * Inserts a new user via post method using a user data form information.
  */
 router.post('/newUser', urlencodedParser, function (req, res, next) {
     let response = {
@@ -70,22 +73,33 @@ router.post('/newUser', urlencodedParser, function (req, res, next) {
         username: req.body.username
     };
     data.insertUser(res, response.first_name, response.last_name, response.password,
-        response.confirm, response.email, response.username);
+        response.confirm, response.email, response.username, () => {
+            res.redirect('/success');
+        });
 });
 
 /**
- *
+ * Inserts a new module via post method using a module data form information.
  */
 router.post('/newModule', urlencodedParser, function(req, res, next) {
     data.insertModule(req.body.module_name, req.body.email, () => {
-        res.send('OK');
+        res.redirect('/success');
     });
 });
 
-router.get('/example', function(req, res, next) {
-    data.insertModule('', 'yasin.ben.hamman@gmail.com', () => {
-        res.send('OK');
+/**
+ * Inserts a new version via post method using a module file and account data form information.
+ */
+router.post('/newVersion', urlencodedParser, function(req, res, next) {
+    let enc_data = btoa(req.files.mod_file.data.toString());
+    let ver_data = req.body.ver.split('.');
+    let version = ver_data.map(
+        (n) => parseInt(n)
+    );
+    data.insertVersion(req.body.module_name, version, enc_data, req.body.email, () => {
+        res.redirect('/success');
     });
+
 });
 
 //</editor-fold>

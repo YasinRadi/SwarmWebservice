@@ -7,7 +7,9 @@ let logger   = require('morgan');
 let index    = require('./routes/index');
 let accounts = require('./routes/accounts');
 let modules  = require('./routes/modules');
+let data     = require('./routes/data');
 let port     = 3100;
+let busboy   = require('connect-busboy');
 let cookieParser = require('cookie-parser');
 let bodyParser   = require('body-parser');
 
@@ -38,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/accounts', accounts);
 app.use('/modules', modules);
+app.use('/data', data);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){

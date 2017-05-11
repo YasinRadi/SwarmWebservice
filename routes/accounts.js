@@ -2,7 +2,14 @@
 
 let express = require('express');
 let router  = express.Router();
-const account = require('../lib/AccountModel');
+const DB    = require('../lib/DB');
+const data  = new DB();
+let fileUp  = require('express-fileupload');
+let valid   = require('../lib/Validator');
+const account  = require('../lib/AccountModel');
+let bodyParser = require('body-parser');
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
+router.use(fileUp());
 
 //<editor-fold desc="GET">
 /***
@@ -250,6 +257,43 @@ router.get('/usernameids', function(req, res, next) {
  *          POST SECTION.
  ******/
 
+/**
+ *
+ */
+router.post('/passReset', urlencodedParser, function(req, res, next) {
+    account.getPasswordByData(req.body.email, req.body.name, req.body.surname, req.body.username, (data) => {
+        if(data[0].shadow) {
+            session.email = req.body.email;
+            res.redirect('/newPassForm');
+        }
+    });
+});
+
+router.post('/passUpdate', urlencodedParser, function(req, res, next) {
+    let password = req.body.current_password;
+    let newPass  = req.body.new_password;
+    let confPass = req.body.confirm_new_password;
+    let email    = session.email;
+    account.getPasswordByEmail(email, (shadows) => {
+        if(valid.validatePassword(newPass, confPass)) {
+            let newSalt     = data.generateSalt();
+            let oldSalt     = shadows[0].salt;
+            let newPassword = data.sha256(password + oldSalt);
+            let oldPassword = shadows[0].shadow;
+            if(valid.isSamePassword(password, oldPassword, oldSalt)) {
+                let new_pass = data.sha256(newPassword + newSalt);
+                account.updatePassword(new_pass, oldPassword, newSalt, oldSalt, () => {
+                    res.redirect('/success');
+                });
+            } else {
+                res.send('Wrong user password.');
+            }
+        } else {
+            res.send('New Passwords don\'t match.');
+        }
+    });
+});
 
 //</editor-fold>
+
 module.exports = router;

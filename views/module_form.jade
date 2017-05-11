@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    body.form
+        h2.form_title Module Data Form
+        form(action='/data/newModule', method='POST')
+            | Module Name:
+            input(type='text', name='module_name')
+            br
+            |             Account Email:
+            input(type='text', name='email')
+            br
+            input.button(type='submit', value='Submit')

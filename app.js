@@ -4,6 +4,7 @@ let express  = require('express');
 let path     = require('path');
 let favicon  = require('serve-favicon');
 let logger   = require('morgan');
+let session  = require('express-session');
 let index    = require('./routes/index');
 let accounts = require('./routes/accounts');
 let modules  = require('./routes/modules');
@@ -12,6 +13,7 @@ let port     = 3100;
 let busboy   = require('connect-busboy');
 let cookieParser = require('cookie-parser');
 let bodyParser   = require('body-parser');
+global.session = session;
 
 let config = {
     key: fs.readFileSync('key.pem'),
@@ -28,9 +30,10 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(session({secret:'XASDASDA'}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);

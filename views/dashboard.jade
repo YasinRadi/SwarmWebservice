@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    body
+        div.logo-section
+            img(src='/images/icon.png')
+            h3 Swarm Inc.
+        h1.form_title Dashboard
+        div.login.db
+            ul
+                li
+                    a(href='/moduleForm') Create a new module!
+                li
+                    a(href='/versionForm') Create a new version for a module!
+                li
+                    a(href="/new_password_form") Change password!
+                li
+                    a(href="/logout") Logout!

@@ -2,12 +2,12 @@ extends layout
 
 block content
     body.form
+        div.logo-section
+            img(src='/images/icon.png')
+            h3 Swarm Inc.
         h2.form_title Module Data Form
         form(action='/data/newModule', method='POST')
-            | Module Name:
+            | New Module Name:
             input(type='text', name='module_name')
-            br
-            |             Account Email:
-            input(type='text', name='email')
             br
             input.button(type='submit', value='Submit')

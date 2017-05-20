@@ -2,6 +2,8 @@ extends layout
 
 block content
   body
-    h1= message
-    h2= error.status
-    pre #{error.stack}
+    script.
+        setTimeout(function () {
+            window.location.href = '/';
+        }, 2000);
+    h3 You are not logged in!

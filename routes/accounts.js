@@ -258,7 +258,7 @@ router.get('/usernameids', function(req, res, next) {
  ******/
 
 /**
- *
+ * Retrieves user password using reset password form data.
  */
 router.post('/passReset', urlencodedParser, function(req, res, next) {
     account.getPasswordByData(req.body.email, req.body.name, req.body.surname, req.body.username, (data) => {
@@ -269,6 +269,9 @@ router.post('/passReset', urlencodedParser, function(req, res, next) {
     });
 });
 
+/**
+ * Updates the password of the user given its old password and its new password.
+ */
 router.post('/passUpdate', urlencodedParser, function(req, res, next) {
     let password = req.body.current_password;
     let newPass  = req.body.new_password;

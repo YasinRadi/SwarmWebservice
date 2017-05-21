@@ -3,8 +3,9 @@ extends layout
 block content
     body.form
         div.logo-section.login-logo
-            img(src='/images/icon.png')
-            h3 Swarm Inc.
+            a(href="/")
+                img(src='/images/icon.png')
+                h3 Swarm Inc.
         h2.form_title User Login
         form(action='/data/login', method='POST')
             |             E-Mail:

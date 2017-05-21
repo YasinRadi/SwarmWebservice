@@ -27,6 +27,11 @@ body {
     height: 50px;
 }
 
+.logo-section a {
+    text-decoration: none;
+    color: #000000;
+}
+
 .logo-section h3 {
     display: inline;
     padding-left: 10px;

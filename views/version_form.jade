@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    body.form
+        div.logo-section
+            a(href="/")
+                img(src='/images/icon.png')
+                h3 Swarm Inc.
+        h2.form_title Version Data Form
+        form(action='/data/newVersion', enctype='multipart/form-data', method='POST')
+            | Module Name:
+            input(type='text', name='module_name')
+            br
+            |             Version:
+            input(type='text', name='ver')
+            br
+            |             File:
+            input(type='file', name='mod_file', accept='.json')
+            br
+            |             Account Email:
+            input(type='text', name='email')
+            br
+            input.button(type='submit', value='Submit')

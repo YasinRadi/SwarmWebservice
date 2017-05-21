@@ -18,42 +18,42 @@ router.use(fileUp());
  * GET All tables data.
  */
 router.get('/', function(req, res, next) {
-    data.getAllData(res);
+    data.getAllData();
 });
 
 /**
  * GET All tables data using a given id.
  */
 router.get('/id/:id', function(req, res, next) {
-    data.getAllDataByAccountId(res, req.params.id);
+    data.getAllDataByAccountId(req.params.id);
 });
 
 /**
  * GET All tables data using a given email.
  */
 router.get('/email/:email', function(req, res, next) {
-    data.getAllDataByEmail(res, req.params.email);
+    data.getAllDataByEmail(req.params.email);
 });
 
 /**
  * GET All tables data using a given name.
  */
 router.get('/name/:name', function(req, res, next) {
-    data.getAllDataByName(res, req.params.name);
+    data.getAllDataByName(req.params.name);
 });
 
 /**
  * GET All tables data using a given surname.
  */
 router.get('/surname/:surname', function(req, res, next) {
-    data.getAllDataBySurname(res, req.params.surname);
+    data.getAllDataBySurname(req.params.surname);
 });
 
 /**
  * GET All tables data using a given username.
  */
 router.get('/username/:username', function(req, res, next) {
-    data.getAllDataByUsername(res, req.params.username);
+    data.getAllDataByUsername(req.params.username);
 });
 
 //</editor-fold>
@@ -82,9 +82,13 @@ router.post('/newUser', urlencodedParser, function (req, res, next) {
  * Inserts a new module via post method using a module data form information.
  */
 router.post('/newModule', urlencodedParser, function(req, res, next) {
-    data.insertModule(req.body.module_name, req.body.email, () => {
-        res.redirect('/success');
-    });
+    if(session.email.toString().length > 0) {
+        data.insertModule(req.body.module_name, session.email.toString(), () => {
+            res.redirect('/success');
+        });
+    } else {
+        res.redirect('/error');
+    }
 });
 
 /**
@@ -99,9 +103,15 @@ router.post('/newVersion', urlencodedParser, function(req, res, next) {
     data.insertVersion(req.body.module_name, version, enc_data, req.body.email, () => {
         res.redirect('/success');
     });
-
 });
 
+/**
+ *
+ */
+router.post('/login', urlencodedParser, function(req, res, next) {
+    session.email = req.body.email;
+    data.getAllDataByPassEmail(session.email, req.body.password, res);
+});
 //</editor-fold>
 
 module.exports = router;

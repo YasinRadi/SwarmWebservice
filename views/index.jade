@@ -1,5 +1,16 @@
 extends layout
 
+
 block content
-  h1= title
-  p Welcome to #{title}
+  body
+    h1 Welcome to the Swarm Environment!
+    div
+      | Here you'll be able to download other user's modules as
+      | well as upload yours.
+      br
+      img.logo(src='/images/icon.png')
+    div.login
+      a(href='/userForm') Register!
+      br
+      | Already registered?&nbsp;
+      a(href='/login') Log in!

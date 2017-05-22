@@ -18,8 +18,12 @@ router.use(fileUp());
  * GET All tables data.
  */
 router.get('/', function(req, res, next) {
-    data.getAllData();
+    data.getAllData((d) => {
+        res.send(d);
+    });
 });
+
+
 
 /**
  * GET All tables data using a given id.
@@ -84,7 +88,7 @@ router.post('/newUser', urlencodedParser, function (req, res, next) {
 router.post('/newModule', urlencodedParser, function(req, res, next) {
     if(session.email.toString().length > 0) {
         data.insertModule(req.body.module_name, session.email.toString(), () => {
-            res.redirect('/success');
+            res.redirect('/success_dash');
         });
     } else {
         res.redirect('/error');
@@ -100,8 +104,8 @@ router.post('/newVersion', urlencodedParser, function(req, res, next) {
     let version = ver_data.map(
         (n) => parseInt(n)
     );
-    data.insertVersion(req.body.module_name, version, enc_data, req.body.email, () => {
-        res.redirect('/success');
+    data.insertVersion(req.body.module_name, version, enc_data, session.email, () => {
+        res.redirect('/success_dash');
     });
 });
 

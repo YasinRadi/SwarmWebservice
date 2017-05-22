@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
  * GET form page.
  */
 router.get('/userForm', function(req, res, next) {
-    if(session.email === null) {
+    if(typeof session.email === 'undefined') {
         res.render('error');
     } else {
         res.render('user_form');
@@ -21,7 +21,6 @@ router.get('/userForm', function(req, res, next) {
  * GET module form page.
  */
 router.get('/moduleForm', function(req, res, next) {
-    console.log(session.email);
     if(typeof session.email === 'undefined') {
         res.render('error');
     } else {
@@ -41,10 +40,17 @@ router.get('/versionForm', function(req, res, next) {
 });
 
 /**
- * GET success static page.
+ * GET index redirecting success static page.
  */
 router.get('/success', function(req, res, next) {
     res.render('success');
+});
+
+/**
+ * GET dashboard redirecting success static page.
+ */
+router.get('/success_dash', function(req, res, next) {
+    res.render('success_dash');
 });
 
 /**

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    body.form
+        div.logo-section
+            a(href="/")
+                img(src='/images/icon.png')
+                h3 Swarm Inc.
+        h2.form_title Module Data Form
+        form(action='/data/newModule', method='POST')
+            | New Module Name:
+            input(type='text', name='module_name')
+            br
+            input.button(type='submit', value='Submit')

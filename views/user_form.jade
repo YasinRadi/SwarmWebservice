@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    body.form
+        div.logo-section
+            a(href="/")
+                img(src='/images/icon.png')
+                h3 Swarm Inc.
+        h2.form_title User Data Form
+        form(action='/data/newUser', method='POST')
+            | First Name:
+            input(type='text', name='first_name')
+            br
+            |             Last Name:
+            input(type='text', name='last_name')
+            br
+            |             E-Mail:
+            input(type='text', name='email')
+            br
+            |             Password:
+            input(type='password', name='password')
+            br
+            |             Confirm Password:
+            input(type='password', name='confirm')
+            br
+            |             Username:
+            input(type='text', name='username')
+            br
+            input.button(type='submit', value='Submit')

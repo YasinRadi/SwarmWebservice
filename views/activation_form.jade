@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    body.form
+        div.logo-section.login-logo
+            a(href="/")
+                img(src='/images/icon.png')
+                h3 Swarm Inc.
+        h2.form_title User Account Activation Form
+        form(action='/data/activateUser', method='POST')
+            |             E-Mail:
+            input(type='text', name='email')
+            br
+            |             Password:
+            input(type='password', name='password')
+            br
+            a.pass-forget(href="/passResetForm") Forgot your password?
+            br
+            input.button(type='submit', value='Submit')

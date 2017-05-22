@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    body
+        div.logo-section
+            a(href="/")
+                img(src='/images/icon.png')
+                h3 Swarm Inc.
+        div.form
+            h2.form_title New Password Form
+            form(action='/accounts/newPass', enctype='multipart/form-data', method='POST')
+                |         New Password:
+                input(type='password', name='new_password')
+                br
+                |         Confirm New Password:
+                input(type='password', name='confirm_new_password')
+                br
+                input.button(type='submit', value='Submit')

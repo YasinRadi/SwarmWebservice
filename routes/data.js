@@ -110,12 +110,50 @@ router.post('/newVersion', urlencodedParser, function(req, res, next) {
 });
 
 /**
- *
+ * Logs a user into the system.
  */
 router.post('/login', urlencodedParser, function(req, res, next) {
     session.email = req.body.email;
     data.getAllDataByPassEmail(session.email, req.body.password, res);
 });
+//</editor-fold>
+
+//<editor-fold desc="UPDATE">
+
+/**
+ * Updates user data.
+ */
+router.post('/updateUser', urlencodedParser, (req, res, next) => {
+    let response = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        username: req.body.username
+    };
+    data.updateUser(response, () => {
+        res.render('success_dash');
+    });
+});
+
+/**
+ * Deactivates the account of the logged in user.
+ */
+router.get('/deactivateUser', (req, res, next) => {
+    data.deactivateUser(() => {
+        session.email = undefined;
+        res.render('success');
+    });
+});
+
+router.post('/activateUser', (req, res, next) => {
+    let user = {
+        email:  req.body.email,
+        password: req.body.password
+    };
+    data.activateUser(user, () => {
+        res.render('success');
+    });
+});
+
 //</editor-fold>
 
 module.exports = router;

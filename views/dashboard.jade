@@ -2,18 +2,26 @@ extends layout
 
 block content
     body
+        script.
+            function userEnsure() {
+                    return confirm('Your account will be deactivated. Do you want to continue?')
+            }
         div.logo-section
             a(href="/")
                 img(src='/images/icon.png')
                 h3 Swarm Inc.
         h1.form_title Dashboard
-        div.login.db
+        div.login
             ul
                 li
                     a(href='/moduleForm') Create a new module!
                 li
                     a(href='/versionForm') Create a new version for a module!
                 li
-                    a(href="/new_password_form") Change password!
+                    a(href='/newPassForm') Change password!
                 li
-                    a(href="/logout") Logout!
+                    a(href='/updateUserForm') Update user info!
+                li
+                    a(href='/logout') Logout!
+                li
+                    a(href='/deactivate' onclick='return userEnsure();') Disable Account.

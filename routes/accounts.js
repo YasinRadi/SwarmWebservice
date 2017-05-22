@@ -265,7 +265,7 @@ router.post('/passReset', urlencodedParser, function(req, res, next) {
     account.getPasswordByData(req.body.email, req.body.name, req.body.surname, req.body.username, (data) => {
         if(data[0].shadow) {
             session.email = req.body.email;
-            res.redirect('/newPassForm');
+            res.redirect('/afterPassResetForm');
         }
     });
 });
@@ -282,20 +282,35 @@ router.post('/passUpdate', urlencodedParser, function(req, res, next) {
         if(valid.validatePassword(newPass, confPass)) {
             let newSalt     = data.generateSalt();
             let oldSalt     = shadows[0].salt;
-            let newPassword = data.sha256(password + oldSalt);
             let oldPassword = shadows[0].shadow;
             if(valid.isSamePassword(password, oldPassword, oldSalt)) {
-                let new_pass = data.sha256(newPassword + newSalt);
+                let new_pass = data.sha256(newPass + newSalt);
                 account.updatePassword(new_pass, oldPassword, newSalt, oldSalt, () => {
-                    res.redirect('/success');
+                    res.redirect('/success_dash');
                 });
             } else {
-                res.send('Wrong user password.');
+                res.render('wrong_pass');
             }
         } else {
-            res.send('New Passwords don\'t match.');
+            res.render('pass_dont_match');
         }
     });
+});
+
+/**
+ * Sets a new password for an already identified user.
+ */
+router.post('/newPass', urlencodedParser, (req, res, next) => {
+    let newPass  = req.body.new_password;
+    let confPass = req.body.confirm_new_password;
+    let email    = session.email;
+    if(valid.validatePassword(newPass, confPass)) {
+        account.resetPassword(email, newPass, () => {
+            res.redirect('/success');
+        });
+    } else {
+        res.render('pass_dont_match');
+    }
 });
 
 //</editor-fold>

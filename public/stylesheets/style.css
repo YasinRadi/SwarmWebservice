@@ -77,8 +77,13 @@ form .button {
 }
 
 .login li {
-    padding-bottom: 5%;
+    padding-bottom: 3%;
     list-style-type: none;
+}
+
+.login li:last-child a:hover {
+    color: #ff0000;
+    text-decoration: none;
 }
 
 .login li a {

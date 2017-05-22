@@ -10,11 +10,41 @@ router.get('/', function(req, res, next) {
  * GET form page.
  */
 router.get('/userForm', function(req, res, next) {
-    if(typeof session.email === 'undefined') {
-        res.render('error');
+    if(session.email !== undefined) {
+        res.render('404');
     } else {
         res.render('user_form');
     }
+});
+
+/**
+ * GET update user form page.
+ */
+router.get('/updateUserForm', (req, res, next) => {
+    if(typeof session.email === 'undefined') {
+        res.render('error');
+    } else {
+        res.render('update_user_form');
+    }
+});
+
+/**
+ * Deactivates the already logged in user account.
+ */
+router.get('/deactivate', (req, res, next) => {
+    if(typeof session.email === 'undefined') {
+        res.render('error');
+    } else {
+        res.redirect('/data/deactivateUser');
+    }
+});
+
+router.get('/activate', (req, res, next) => {
+     if(typeof session.email === 'undefined') {
+         res.render('activation_form');
+     } else {
+         res.render('404');
+     }
 });
 
 /**
@@ -60,6 +90,12 @@ router.get('/passResetForm', function(req, res, next) {
     res.render('password_reset');
 });
 
+/**
+ * GET Form after Password reset form page.
+ */
+router.get('/afterPassResetForm', (req, res, next) => {
+    res.render('new_pass_nold_form');
+});
 
 /**
  * GET New Password form page.
@@ -90,8 +126,8 @@ router.get('/dashboard', function(req, res, next) {
  * Destroys the current session email data.
  */
 router.get('/logout', function(req, res, next) {
-   req.session.email.destroy();
-   res.redirect('/');
+   session.email = undefined;
+   res.render('index');
 });
 
 module.exports = router;
